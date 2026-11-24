@@ -1,15 +1,19 @@
+
 {
   "schemaVersion": 1,
   "id": "minecrart_mod",
   "version": "1.0.0",
-  "name": "Minecrart Mod Menu Manager",
-  "description": "Manage visibility of installed mods in Mod Menu.",
+  "name": "Minecraft Mod Menu Manager",
+  "description": "Manage mod and keybind visibility.",
   "environment": "client",
   "entrypoints": {
     "client": [
       "com.minecrart.modmanager.ModMenuManager"
     ]
   },
+  "mixins": [
+    "minecrart_mod.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.16.0",
     "minecraft": "1.21.11",
