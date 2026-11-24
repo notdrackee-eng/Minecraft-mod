@@ -1,4 +1,3 @@
-
 {
   "schemaVersion": 1,
   "id": "minecrart_mod",
@@ -7,7 +6,7 @@
   "description": "Manage visibility of installed mods in Mod Menu.",
   "environment": "client",
   "entrypoints": {
-    "modmenu": [
+    "client": [
       "com.minecrart.modmanager.ModMenuManager"
     ]
   },
@@ -15,6 +14,7 @@
     "fabricloader": ">=0.16.0",
     "minecraft": "1.21.11",
     "java": ">=21",
+    "fabric-api": "*",
     "modmenu": ">=17.0.1"
   }
 }
