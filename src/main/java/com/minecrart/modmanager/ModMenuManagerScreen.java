@@ -105,6 +105,17 @@ public class ModMenuManagerScreen extends Screen {
 
         addDrawableChild(
             ButtonWidget.builder(
+                Text.literal("Keybinds"),
+                button -> MinecraftClient.getInstance().setScreen(
+                    new KeybindManagerScreen(this)
+                )
+            )
+            .dimensions(width / 2 - 160, height - 55, 90, 20)
+            .build()
+        );
+
+        addDrawableChild(
+            ButtonWidget.builder(
                 Text.literal("Done"),
                 button -> MinecraftClient.getInstance().setScreen(parent)
             )
@@ -123,7 +134,6 @@ public class ModMenuManagerScreen extends Screen {
         }
 
         ModMenuConfig.HIDDEN_MODS.setValue(hidden);
-
         ModMenuConfigManager.save();
 
         MinecraftClient.getInstance().setScreen(
