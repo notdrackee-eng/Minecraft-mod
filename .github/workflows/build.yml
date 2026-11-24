@@ -1,5 +1,5 @@
 
-name: Build Minecraft-mod
+name: Build Minecrart-mod
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Download source
         uses: actions/checkout@v4
 
       - name: Set up Java
@@ -29,5 +29,5 @@ jobs:
       - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
-          name: Minecraft-mod-JAR
+          name: Minecrart-mod-JAR
           path: build/libs/*.jar
