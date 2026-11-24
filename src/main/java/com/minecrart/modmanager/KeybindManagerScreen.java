@@ -8,6 +8,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -20,14 +21,25 @@ public class KeybindManagerScreen extends Screen {
     private static final int PAGE_SIZE = 8;
 
     public KeybindManagerScreen(Screen parent) {
+        this(parent, 0);
+    }
+
+    public KeybindManagerScreen(Screen parent, int page) {
         super(Text.literal("Keybind Manager"));
         this.parent = parent;
+        this.page = page;
     }
 
     @Override
     protected void init() {
-        List<KeyBinding> keys = Arrays.asList(
-            MinecraftClient.getInstance().options.allKeys
+
+        KeyBinding[] allKeys =
+            ((com.minecrart.modmanager.mixin.GameOptionsAccessor)
+                (Object) MinecraftClient.getInstance().options)
+                .minecrart$getAllKeys();
+
+        List<KeyBinding> keys = new ArrayList<>(
+            Arrays.asList(allKeys)
         );
 
         keys.sort(Comparator.comparing(KeyBinding::getId));
@@ -42,6 +54,7 @@ public class KeybindManagerScreen extends Screen {
         int end = Math.min(start + PAGE_SIZE, keys.size());
 
         for (int i = start; i < end; i++) {
+
             KeyBinding key = keys.get(i);
             String id = key.getId();
 
@@ -106,11 +119,6 @@ public class KeybindManagerScreen extends Screen {
         MinecraftClient.getInstance().setScreen(
             new KeybindManagerScreen(parent, page)
         );
-    }
-
-    private KeybindManagerScreen(Screen parent, int page) {
-        this(parent);
-        this.page = page;
     }
 
     @Override
