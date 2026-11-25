@@ -1,3 +1,4 @@
+
 package com.minecrart.modmanager.mixin;
 
 import com.minecrart.modmanager.HiddenKeybinds;
@@ -6,7 +7,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.option.ControlsListWidget;
 import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.gui.widget.EntryListWidget;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,13 +29,13 @@ public class ControlsListWidgetMixin {
                 ((EntryListWidgetAccessor) (Object) this)
                         .minecrart$getChildren();
 
+        // Remove hidden keybinds
         Iterator<?> iterator = entries.iterator();
 
         while (iterator.hasNext()) {
             Object entry = iterator.next();
 
             if (entry instanceof ControlsListWidget.KeyBindingEntry keyEntry) {
-
                 KeyBinding binding =
                         ((KeyBindingEntryAccessor) (Object) keyEntry)
                                 .minecrart$getBinding();
@@ -44,6 +44,37 @@ public class ControlsListWidgetMixin {
                     iterator.remove();
                 }
             }
+        }
+
+        // Remove category headings with no visible keybinds
+        int i = 0;
+
+        while (i < entries.size()) {
+            Object entry = entries.get(i);
+
+            if (entry instanceof ControlsListWidget.CategoryEntry) {
+                boolean hasVisibleKeybind = false;
+
+                for (int j = i + 1; j < entries.size(); j++) {
+                    Object next = entries.get(j);
+
+                    if (next instanceof ControlsListWidget.CategoryEntry) {
+                        break;
+                    }
+
+                    if (next instanceof ControlsListWidget.KeyBindingEntry) {
+                        hasVisibleKeybind = true;
+                        break;
+                    }
+                }
+
+                if (!hasVisibleKeybind) {
+                    entries.remove(i);
+                    continue;
+                }
+            }
+
+            i++;
         }
     }
 }
