@@ -20,5 +20,12 @@
     "java": ">=21",
     "fabric-api": "*",
     "modmenu": ">=17.0.1"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    }
   }
 }
